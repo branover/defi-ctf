@@ -1,0 +1,44 @@
+# Foundry
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+!contracts/broadcast/Deploy.s.sol/31337/run-latest.json
+
+# Node
+node_modules/
+engine/node_modules/
+frontend/node_modules/
+sdk/node_modules/
+
+# Build outputs
+frontend/dist/
+engine/dist/
+
+# Runtime
+.logs/
+.pids
+.env
+.test-results/
+
+# Editor
+.vscode/
+*.swp
+
+# Solve workspace build/broadcast artifacts (contain private keys)
+solve/out/
+solve/cache/
+solve/broadcast/
+
+# Per-challenge solution directories (internal reference solutions, never committed).
+challenges/**/solution/
+
+# Local development / AI tooling — not for public repo
+CLAUDE.md
+TASKS.md
+.issue-watcher-state
+.pending-issues.md
+scripts/
+solve/run-failed.sh
+solve/test-scripts/
+.claude/
+.github/

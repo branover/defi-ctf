@@ -1,0 +1,96 @@
+{
+  "id": "low-tide",
+  "name": "Low Tide",
+  "description": "A thin pool with only 50 WETH of liquidity. You have 10 ETH and 5,000 USDC. Momentum bots join any trend that sustains for 10 blocks. Grow your portfolio from 11.67 ETH to 15.67 ETH.",
+  "version": "1.0.0",
+  "category": "market-manipulation",
+  "difficulty": "medium",
+  "tags": [
+    "pump-and-dump",
+    "thin-liquidity",
+    "momentum-bot",
+    "market-manipulation"
+  ],
+  "chain": {
+    "blockCount": 400,
+    "blockIntervalMs": 400,
+    "botSeed": 3141,
+    "blocksPerCandle": 8
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "USDC",
+      "decimals": 6,
+      "type": "erc20",
+      "deployerMintAmount": "350000",
+      "mintAmount": "5000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "weth-usdc-uniswap",
+      "tokenA": "WETH",
+      "tokenB": "USDC",
+      "initialReserveA": "50",
+      "initialReserveB": "150000",
+      "exchange": "uniswap",
+      "displayName": "Uniswap"
+    }
+  ],
+  "bots": [
+    {
+      "id": "follower-a",
+      "personality": "momentum",
+      "account": 1,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "trendWindow": 10,
+        "threshold": 0.03,
+        "swapSizeMinEth": 2.0,
+        "swapSizeMaxEth": 8.0,
+        "tradeFrequency": 0.8
+      }
+    },
+    {
+      "id": "follower-b",
+      "personality": "momentum",
+      "account": 2,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "trendWindow": 12,
+        "threshold": 0.025,
+        "swapSizeMinEth": 1.5,
+        "swapSizeMaxEth": 6.0,
+        "tradeFrequency": 0.7
+      }
+    },
+    {
+      "id": "noise",
+      "personality": "volatile",
+      "account": 3,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "swapSizeMinEth": 0.5,
+        "swapSizeMaxEth": 2.0,
+        "tradeFrequency": 0.3
+      }
+    }
+  ],
+  "player": {
+    "startingEth": "10",
+    "startingTokens": [
+      { "symbol": "USDC", "amount": "5000" }
+    ]
+  },
+  "win": {
+    "playerAccount": 0,
+    "metric": "portfolioValueInEth",
+    "startingValue": "11.67",
+    "target": "15.67"
+  }
+}

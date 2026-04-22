@@ -1,0 +1,62 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# defi-ctf — Docker Compose stack
+#
+# Usage:
+#   docker compose up                # start the platform
+#   docker compose up --build        # rebuild image first
+#   docker compose --profile test up # platform + test runner
+#
+# Access:
+#   Frontend  → http://localhost:5173
+#   Engine    → http://localhost:3000
+#   Chain     → http://localhost:8545
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+
+  # ── All-in-one platform (Anvil + Engine + Frontend) ─────────────────────────
+  platform:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: platform
+    image: defi-ctf:latest
+    container_name: defi-ctf
+    restart: unless-stopped
+    ports:
+      - "8545:8545"   # Anvil RPC
+      - "3000:3000"   # Engine HTTP + WS
+      - "5173:5173"   # Vite frontend
+    volumes:
+      # Mount challenges and contracts/out so you can edit manifests without rebuilding
+      - ../challenges:/app/challenges
+      - ../contracts/out:/app/contracts/out
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 60s
+
+  # ── Test runner (profile: test) ──────────────────────────────────────────────
+  # Run with:  docker compose --profile test run --rm tests
+  tests:
+    profiles: ["test"]
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: test
+    image: defi-ctf-test:latest
+    container_name: defi-ctf-tests
+    depends_on:
+      platform:
+        condition: service_healthy
+    environment:
+      ENGINE_URL:   http://platform:3000
+      WS_URL:       ws://platform:3000/ws
+      FRONTEND_URL: http://platform:5173
+    volumes:
+      # Persist test results (screenshots, HTML report) on the host
+      - ../.test-results:/app/.test-results
+    # Run all tests against the already-running platform service
+    command: ["./test/run-tests.sh", "--no-start", "--ui"]

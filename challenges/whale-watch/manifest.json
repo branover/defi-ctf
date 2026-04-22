@@ -1,0 +1,101 @@
+{
+  "id": "whale-watch",
+  "name": "Whale Watch",
+  "description": "Someone is moving serious size in the WETH/USDC pool. The candle chart tells a story — spikes appear with suspicious regularity. Study the order flow and position yourself ahead of the next wave.",
+  "version": "1.0.0",
+  "category": "market-manipulation",
+  "difficulty": "easy",
+  "tags": [
+    "front-running",
+    "mev",
+    "periodic-bot",
+    "pattern"
+  ],
+  "chain": {
+    "blockCount": 400,
+    "blockIntervalMs": 400,
+    "botSeed": 5050,
+    "blocksPerCandle": 6
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "USDC",
+      "decimals": 6,
+      "type": "erc20",
+      "deployerMintAmount": "8000000",
+      "botMintAmount": "1200000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "weth-usdc-uniswap",
+      "tokenA": "WETH",
+      "tokenB": "USDC",
+      "initialReserveA": "500",
+      "initialReserveB": "1500000",
+      "exchange": "uniswap",
+      "displayName": "Uniswap"
+    }
+  ],
+  "bots": [
+    {
+      "id": "big-whale",
+      "personality": "periodic",
+      "account": 1,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "direction": "buy",
+        "swapSizeEth": 30,
+        "blockInterval": 30,
+        "startBlock": 30
+      }
+    },
+    {
+      "id": "noise-a",
+      "personality": "volatile",
+      "account": 2,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "swapSizeMinEth": 0.2,
+        "swapSizeMaxEth": 1.5,
+        "tradeFrequency": 0.45
+      }
+    },
+    {
+      "id": "noise-b",
+      "personality": "volatile",
+      "account": 3,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "swapSizeMinEth": 0.1,
+        "swapSizeMaxEth": 0.8,
+        "tradeFrequency": 0.5
+      }
+    },
+    {
+      "id": "normalizer",
+      "personality": "meanReversion",
+      "account": 4,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "targetPrice": 3000,
+        "swapSizeMinEth": 2,
+        "swapSizeMaxEth": 15,
+        "revertThreshold": 0.03,
+        "tradeFrequency": 0.8,
+        "twapWindow": 5
+      }
+    }
+  ],
+  "win": {
+    "playerAccount": 0,
+    "metric": "ethBalance",
+    "startingValue": "10",
+    "target": "14.5"
+  }
+}

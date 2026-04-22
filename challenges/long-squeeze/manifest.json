@@ -1,0 +1,135 @@
+{
+  "id": "long-squeeze",
+  "name": "Long Squeeze",
+  "description": "Three heavily-leveraged long positions are hovering near their liquidation threshold. A coordinated price drop could push them under \u2014 and the liquidation bonus goes to whoever calls liquidate() first.",
+  "version": "1.0.0",
+  "category": "market-manipulation",
+  "difficulty": "medium",
+  "tags": [
+    "liquidation",
+    "price-manipulation",
+    "margin",
+    "leverage",
+    "defi-exploit"
+  ],
+  "chain": {
+    "blockCount": 120,
+    "blockIntervalMs": 600,
+    "botSeed": 4242,
+    "blocksPerCandle": 10
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "USDC",
+      "decimals": 6,
+      "type": "usd",
+      "deployerMintAmount": "700000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "weth-usdc-uniswap",
+      "tokenA": "WETH",
+      "tokenB": "USDC",
+      "initialReserveA": "150",
+      "initialReserveB": "300000",
+      "exchange": "uniswap",
+      "displayName": "Uniswap (Price Oracle)"
+    }
+  ],
+  "contracts": [
+    {
+      "id": "margin",
+      "type": "MarginProtocol",
+      "params": [
+        "{{token:WETH}}",
+        "{{token:USDC}}",
+        "{{pool:weth-usdc-uniswap}}",
+        8000,
+        8500,
+        500
+      ],
+      "fund": [
+        {
+          "tokenSymbol": "USDC",
+          "amount": "200000"
+        }
+      ]
+    }
+  ],
+  "botPositions": [
+    {
+      "botAccount": 1,
+      "wethCollateral": "30",
+      "usdcToBorrow": "45000",
+      "contractId": "margin"
+    },
+    {
+      "botAccount": 2,
+      "wethCollateral": "25",
+      "usdcToBorrow": "38000",
+      "contractId": "margin"
+    },
+    {
+      "botAccount": 3,
+      "wethCollateral": "20",
+      "usdcToBorrow": "31000",
+      "contractId": "margin"
+    }
+  ],
+  "bots": [
+    {
+      "id": "long-1",
+      "personality": "periodic",
+      "account": 1,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "direction": "buy",
+        "swapSizeEth": 0.5,
+        "blockInterval": 20
+      }
+    },
+    {
+      "id": "long-2",
+      "personality": "periodic",
+      "account": 2,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "direction": "buy",
+        "swapSizeEth": 0.4,
+        "blockInterval": 25
+      }
+    },
+    {
+      "id": "long-3",
+      "personality": "periodic",
+      "account": 3,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "direction": "buy",
+        "swapSizeEth": 0.3,
+        "blockInterval": 30
+      }
+    }
+  ],
+  "player": {
+    "startingEth": "15",
+    "startingTokens": [
+      {
+        "symbol": "USDC",
+        "amount": "125000"
+      }
+    ]
+  },
+  "win": {
+    "playerAccount": 0,
+    "metric": "portfolioValueInEth",
+    "startingValue": "77.5",
+    "target": "87.5"
+  }
+}

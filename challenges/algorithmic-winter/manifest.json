@@ -1,0 +1,103 @@
+{
+  "id": "algorithmic-winter",
+  "name": "Algorithmic Winter",
+  "description": "The ALGOS algorithmic stablecoin is backed by WETH reserves and uses a thin AMM pool as its price oracle. Recent redemptions have pushed the system close to insolvency \u2014 WETH collateral covers only 111% of the outstanding ALGOS supply. The oracle pool is thin, making the peg fragile under adverse conditions.",
+  "version": "1.0.0",
+  "category": "defi-exploit",
+  "difficulty": "hard",
+  "tags": [
+    "stablecoin",
+    "oracle-manipulation",
+    "death-spiral",
+    "reflexive",
+    "algorithmic"
+  ],
+  "chain": {
+    "blockCount": 150,
+    "blockIntervalMs": 600,
+    "botSeed": 7777,
+    "blocksPerCandle": 10
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "USDF",
+      "decimals": 18,
+      "type": "usd",
+      "deployerMintAmount": "20000"
+    },
+    {
+      "symbol": "ALGOS",
+      "decimals": 18,
+      "type": "erc20",
+      "deployerMintAmount": "100000",
+      "mintAmount": "200000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "weth-usdf-uniswap",
+      "tokenA": "WETH",
+      "tokenB": "USDF",
+      "initialReserveA": "10",
+      "initialReserveB": "20000",
+      "exchange": "uniswap",
+      "displayName": "WETH/USDF (Oracle)"
+    },
+    {
+      "id": "algos-weth-uniswap",
+      "tokenA": "ALGOS",
+      "tokenB": "WETH",
+      "initialReserveA": "100000",
+      "initialReserveB": "50",
+      "exchange": "uniswap",
+      "displayName": "ALGOS/WETH"
+    }
+  ],
+  "contracts": [
+    {
+      "id": "algo-stable",
+      "type": "AlgorithmicStablecoin",
+      "params": [
+        "{{token:WETH}}",
+        "{{token:ALGOS}}",
+        "{{pool:weth-usdf-uniswap}}",
+        18
+      ],
+      "fund": [
+        {
+          "tokenSymbol": "ETH",
+          "amount": "500"
+        }
+      ]
+    }
+  ],
+  "bots": [
+    {
+      "id": "algos-seller",
+      "personality": "periodic",
+      "account": 3,
+      "params": {
+        "poolId": "algos-weth-uniswap",
+        "direction": "sell",
+        "swapSizeEth": 500,
+        "blockInterval": 25,
+        "startBlock": 10
+      }
+    }
+  ],
+  "player": {
+    "startingEth": "30"
+  },
+  "win": {
+    "playerAccount": 0,
+    "metric": "drainContract",
+    "contractId": "algo-stable",
+    "threshold": "10000000000000000000",
+    "tokenSymbol": "WETH"
+  }
+}

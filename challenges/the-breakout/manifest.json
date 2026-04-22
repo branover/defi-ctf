@@ -1,0 +1,95 @@
+{
+  "id": "the-breakout",
+  "name": "The Breakout",
+  "description": "Price has been coiling in a tight range, kept in check by a range-bound bot. Somewhere out there, a whale is about to fire a single massive buy that blows price up by over 50%. Watch the charts, read the signals, and position yourself before the breakout hits.",
+  "version": "1.0.0",
+  "category": "trading-strategy",
+  "difficulty": "easy",
+  "tags": [
+    "breakout",
+    "range-trading",
+    "oco-orders",
+    "conditional"
+  ],
+  "chain": {
+    "blockCount": 300,
+    "blockIntervalMs": 450,
+    "botSeed": 9191,
+    "blocksPerCandle": 5
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "USDC",
+      "decimals": 6,
+      "type": "erc20",
+      "deployerMintAmount": "1400000",
+      "mintAmount": "200000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "weth-usdc-uniswap",
+      "tokenA": "WETH",
+      "tokenB": "USDC",
+      "initialReserveA": "200",
+      "initialReserveB": "600000",
+      "exchange": "uniswap",
+      "displayName": "Uniswap"
+    }
+  ],
+  "bots": [
+    {
+      "id": "range-keeper",
+      "personality": "meanReversion",
+      "account": 1,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "targetPrice": 3000,
+        "revertThreshold": 0.035,
+        "swapSizeMinEth": 3.0,
+        "swapSizeMaxEth": 10.0,
+        "tradeFrequency": 0.6,
+        "twapWindow": 15
+      }
+    },
+    {
+      "id": "noise-x",
+      "personality": "volatile",
+      "account": 2,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "swapSizeMinEth": 0.3,
+        "swapSizeMaxEth": 2.0,
+        "tradeFrequency": 0.5
+      }
+    },
+    {
+      "id": "whale",
+      "personality": "sniper",
+      "account": 3,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "direction": "buy",
+        "swapSizeEth": 50,
+        "triggerBlock": 100
+      }
+    }
+  ],
+  "player": {
+    "startingEth": "10",
+    "startingTokens": [
+      { "symbol": "USDC", "amount": "200000" }
+    ]
+  },
+  "win": {
+    "playerAccount": 0,
+    "metric": "portfolioValueInEth",
+    "startingValue": "77",
+    "target": "80"
+  }
+}

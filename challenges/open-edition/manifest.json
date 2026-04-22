@@ -1,0 +1,108 @@
+{
+  "id": "open-edition",
+  "name": "Open Edition",
+  "description": "An NFT collection is deployed with a mintTo() function that has a missing access control modifier. A collector bot pays 0.5 WETH for any NFT with rarity \u2265 75. Collect 1 ETH in profit.",
+  "version": "1.0.0",
+  "category": "defi-exploit",
+  "difficulty": "easy",
+  "tags": [
+    "nft",
+    "smart-contract-exploit",
+    "missing-modifier",
+    "access-control",
+    "defi-exploit"
+  ],
+  "chain": {
+    "blockCount": 150,
+    "blockIntervalMs": 800,
+    "botSeed": 2024,
+    "blocksPerCandle": 10
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    }
+  ],
+  "pools": [],
+  "contracts": [
+    {
+      "id": "collection",
+      "type": "UnprotectedCollection",
+      "params": [
+        "Open Edition Collection",
+        "OPEN",
+        10000
+      ]
+    },
+    {
+      "id": "marketplace",
+      "type": "NFTMarketplace",
+      "params": [
+        "{{collection}}",
+        "{{token:WETH}}"
+      ]
+    }
+  ],
+  "nftMints": [
+    {
+      "contractId": "collection",
+      "tokenId": 0,
+      "recipient": "bot0",
+      "rarityScore": 10,
+      "listed": true,
+      "listingPrice": "0.3",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 1,
+      "recipient": "bot0",
+      "rarityScore": 20,
+      "listed": true,
+      "listingPrice": "0.3",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 2,
+      "recipient": "bot1",
+      "rarityScore": 15,
+      "listed": false
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 3,
+      "recipient": "bot1",
+      "rarityScore": 5,
+      "listed": false
+    }
+  ],
+  "bots": [
+    {
+      "id": "collector",
+      "personality": "nft-buyer",
+      "account": 1,
+      "params": {
+        "marketplaceId": "marketplace",
+        "collectionId": "collection",
+        "wethAddress": "{{token:WETH}}",
+        "blockInterval": 5,
+        "markupPct": 10,
+        "minRarity": 75,
+        "maxBuyPrice": 0.5,
+        "startBlock": 5
+      }
+    }
+  ],
+  "player": {
+    "startingEth": "2"
+  },
+  "win": {
+    "playerAccount": 0,
+    "metric": "nftSalesProfit",
+    "startingValue": "2",
+    "target": "3"
+  }
+}

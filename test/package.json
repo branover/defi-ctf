@@ -1,0 +1,17 @@
+{
+  "name": "defi-ctf-tests",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:regression": "node regression.mjs",
+    "test:ui":         "playwright test",
+    "test:ui:headed":  "playwright test --headed",
+    "test:ui:debug":   "playwright test --debug",
+    "test:all":        "node regression.mjs && playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.0",
+    "ws": "^8.18.2"
+  }
+}

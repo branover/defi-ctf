@@ -1,0 +1,123 @@
+{
+  "id": "nft-marketplace-tutorial",
+  "name": "Your First Flip",
+  "description": "Meet the NFT Marketplace. A seller bot is unloading corgi NFTs cheap, and a buyer bot will pay a premium for anything above a certain rarity. Buy low, list high, and pocket the difference. A guided tutorial shows you how to navigate the marketplace UI.",
+  "version": "1.0.0",
+  "category": "tutorial",
+  "difficulty": "beginner",
+  "tags": [
+    "tutorial",
+    "nft",
+    "nft-marketplace",
+    "js-sdk",
+    "flip"
+  ],
+  "chain": {
+    "blockCount": 200,
+    "blockIntervalMs": 600,
+    "botSeed": 5,
+    "blocksPerCandle": 10
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    }
+  ],
+  "pools": [],
+  "contracts": [
+    {
+      "id": "collection",
+      "type": "CTFCollection",
+      "params": [
+        "Tutorial Corgis",
+        "CORGI",
+        100
+      ]
+    },
+    {
+      "id": "marketplace",
+      "type": "NFTMarketplace",
+      "params": [
+        "{{collection}}",
+        "{{token:WETH}}"
+      ]
+    }
+  ],
+  "nftMints": [
+    {
+      "contractId": "collection",
+      "tokenId": 0,
+      "recipient": "bot0",
+      "rarityScore": 65,
+      "listed": true,
+      "listingPrice": "0.3",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 1,
+      "recipient": "bot0",
+      "rarityScore": 72,
+      "listed": true,
+      "listingPrice": "0.3",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 2,
+      "recipient": "bot0",
+      "rarityScore": 55,
+      "listed": true,
+      "listingPrice": "0.3",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 3,
+      "recipient": "bot0",
+      "rarityScore": 80,
+      "listed": true,
+      "listingPrice": "0.3",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 4,
+      "recipient": "bot0",
+      "rarityScore": 48,
+      "listed": true,
+      "listingPrice": "0.3",
+      "marketplaceId": "marketplace"
+    }
+  ],
+  "bots": [
+    {
+      "id": "buyer-bot",
+      "personality": "nft-buyer",
+      "account": 1,
+      "params": {
+        "marketplaceId": "marketplace",
+        "collectionId": "collection",
+        "wethId": "WETH",
+        "wethAddress": "{{token:WETH}}",
+        "blockInterval": 15,
+        "markupPct": 40,
+        "minRarity": 50,
+        "maxBuyPrice": 0.6,
+        "startBlock": 10
+      }
+    }
+  ],
+  "order": 5,
+  "player": {
+    "startingEth": "2"
+  },
+  "win": {
+    "playerAccount": 0,
+    "metric": "nftSalesProfit",
+    "startingValue": "2",
+    "target": "2.4"
+  }
+}

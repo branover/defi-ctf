@@ -1,0 +1,13 @@
+FROM node:20-alpine
+WORKDIR /app
+
+# Copy engine dependencies
+COPY engine/package*.json ./engine/
+RUN cd engine && npm ci --silent
+
+# Copy source
+COPY engine/ ./engine/
+COPY challenges/ ./challenges/
+
+WORKDIR /app/engine
+CMD ["npx", "tsx", "src/index.ts"]

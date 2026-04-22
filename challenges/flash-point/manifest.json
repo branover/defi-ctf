@@ -1,0 +1,106 @@
+{
+  "id": "flash-point",
+  "name": "Flash Point",
+  "description": "Three deep pools have a circular pricing inefficiency: WETH\u2192USDC\u2192DAI\u2192WETH returns roughly 10% on small trades. The gap closes over several blocks as an arb bot works through it. A FlashLoanProvider contract is deployed and available for use.",
+  "version": "1.0.0",
+  "category": "defi-exploit",
+  "difficulty": "medium",
+  "tags": [
+    "flash-loan",
+    "triangular-arb",
+    "composability",
+    "atomic"
+  ],
+  "chain": {
+    "blockCount": 100,
+    "blockIntervalMs": 600,
+    "botSeed": 8080,
+    "blocksPerCandle": 10
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "USDC",
+      "decimals": 6,
+      "type": "erc20",
+      "deployerMintAmount": "50000000"
+    },
+    {
+      "symbol": "DAI",
+      "decimals": 18,
+      "type": "erc20",
+      "deployerMintAmount": "50000000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "weth-usdc-uniswap",
+      "tokenA": "WETH",
+      "tokenB": "USDC",
+      "initialReserveA": "5000",
+      "initialReserveB": "16000000",
+      "exchange": "uniswap",
+      "displayName": "Uniswap"
+    },
+    {
+      "id": "weth-dai-sushiswap",
+      "tokenA": "WETH",
+      "tokenB": "DAI",
+      "initialReserveA": "5000",
+      "initialReserveB": "14500000",
+      "exchange": "sushiswap",
+      "displayName": "SushiSwap"
+    },
+    {
+      "id": "usdc-dai-curve",
+      "tokenA": "USDC",
+      "tokenB": "DAI",
+      "initialReserveA": "15000000",
+      "initialReserveB": "15750000",
+      "exchange": "curve",
+      "displayName": "Curve"
+    }
+  ],
+  "contracts": [
+    {
+      "id": "flashloan",
+      "type": "FlashLoanProvider",
+      "params": [],
+      "fund": [
+        {
+          "tokenSymbol": "USDC",
+          "amount": "10000000"
+        },
+        {
+          "tokenSymbol": "DAI",
+          "amount": "10000000"
+        }
+      ]
+    }
+  ],
+  "bots": [
+    {
+      "id": "slow-arb",
+      "personality": "arbitrageur",
+      "account": 1,
+      "params": {
+        "poolIdA": "weth-usdc-uniswap",
+        "poolIdB": "weth-dai-sushiswap",
+        "swapSizeMinEth": 1.0,
+        "swapSizeMaxEth": 5.0,
+        "minProfitBps": 20,
+        "tradeFrequency": 0.4
+      }
+    }
+  ],
+  "win": {
+    "playerAccount": 0,
+    "metric": "portfolioValueInEth",
+    "startingValue": "10",
+    "target": "12.5"
+  }
+}

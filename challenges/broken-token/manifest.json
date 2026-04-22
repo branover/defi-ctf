@@ -1,0 +1,47 @@
+{
+  "id": "broken-token",
+  "name": "Broken Token",
+  "description": "A newly deployed token contract holds 1,000,000 ISEC and a 2 ETH prize. The contract's transferFrom() is missing its allowance check — anyone can move anyone else's tokens. Can you spot and exploit the bug to claim the prize?",
+  "version": "1.0.0",
+  "category": "tutorial",
+  "difficulty": "beginner",
+  "tags": [
+    "tutorial",
+    "smart-contract",
+    "erc20",
+    "missing-validation",
+    "exploit"
+  ],
+  "chain": {
+    "blockCount": 80,
+    "blockIntervalMs": 600,
+    "botSeed": 3,
+    "blocksPerCandle": 10
+  },
+  "tokens": [],
+  "pools": [],
+  "bots": [],
+  "contracts": [
+    {
+      "id": "insecure-token",
+      "type": "InsecureToken",
+      "params": ["1000000000000000000000000"],
+      "fund": [
+        {
+          "tokenSymbol": "ETH",
+          "amount": "2"
+        }
+      ]
+    }
+  ],
+  "order": 3,
+  "player": {
+    "startingEth": "1"
+  },
+  "win": {
+    "metric": "drainContract",
+    "playerAccount": 0,
+    "contractId": "insecure-token",
+    "threshold": "100000000000000000"
+  }
+}

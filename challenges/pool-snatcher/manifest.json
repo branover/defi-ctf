@@ -1,0 +1,163 @@
+{
+  "id": "pool-snatcher",
+  "name": "Pool Snatcher",
+  "description": "A well-funded collector is building a rare NFT portfolio by depositing pieces into a cutting-edge liquidity vault. The vault looks legitimate — but something about it was never finished. If you can take control before the collector's next deposit, their entire collection could end up in your wallet.",
+  "version": "1.0.0",
+  "category": "defi-exploit",
+  "difficulty": "hard",
+  "tags": [
+    "nft",
+    "smart-contract-exploit",
+    "upgradeable",
+    "proxy",
+    "access-control"
+  ],
+  "chain": {
+    "blockCount": 250,
+    "blockIntervalMs": 800,
+    "botSeed": 7777,
+    "blocksPerCandle": 10
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "MEME",
+      "decimals": 18,
+      "type": "erc20",
+      "deployerMintAmount": "200000",
+      "botMintAmount": "50000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "weth-meme-uniswap",
+      "tokenA": "WETH",
+      "tokenB": "MEME",
+      "initialReserveA": "50",
+      "initialReserveB": "25000",
+      "exchange": "uniswap",
+      "displayName": "MEME/WETH"
+    }
+  ],
+  "contracts": [
+    {
+      "id": "amm-impl",
+      "type": "amm-proxy-impl",
+      "params": []
+    },
+    {
+      "id": "upgradeable-pool",
+      "type": "amm-proxy",
+      "params": ["WETH", "MEME", "50", "25000"]
+    },
+    {
+      "id": "collection",
+      "type": "CTFCollection",
+      "params": [
+        "Rare Collector Items",
+        "RCI",
+        100
+      ]
+    },
+    {
+      "id": "marketplace",
+      "type": "NFTMarketplace",
+      "params": [
+        "{{collection}}",
+        "{{token:WETH}}"
+      ]
+    }
+  ],
+  "nftMints": [
+    {
+      "contractId": "collection",
+      "tokenId": 0,
+      "recipient": "bot0",
+      "rarityScore": 88,
+      "listed": false
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 1,
+      "recipient": "bot0",
+      "rarityScore": 91,
+      "listed": false
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 2,
+      "recipient": "bot0",
+      "rarityScore": 76,
+      "listed": false
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 3,
+      "recipient": "bot0",
+      "rarityScore": 83,
+      "listed": false
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 4,
+      "recipient": "bot0",
+      "rarityScore": 95,
+      "listed": false
+    }
+  ],
+  "bots": [
+    {
+      "id": "bot-a",
+      "personality": "nft-collector",
+      "account": 1,
+      "params": {
+        "collectionId": "collection",
+        "poolId": "upgradeable-pool",
+        "nftPoolMode": 1,
+        "depositInterval": 25,
+        "startBlock": 20
+      }
+    },
+    {
+      "id": "bot-b",
+      "personality": "nft-buyer",
+      "account": 2,
+      "params": {
+        "marketplaceId": "marketplace",
+        "collectionId": "collection",
+        "wethId": "WETH",
+        "blockInterval": 20,
+        "markupPct": 10,
+        "maxBuyPrice": 3.0,
+        "startBlock": 5
+      }
+    },
+    {
+      "id": "bot-c",
+      "personality": "momentum",
+      "account": 3,
+      "params": {
+        "poolId": "weth-meme-uniswap",
+        "trendWindow": 8,
+        "threshold": 0.015,
+        "swapSizeMinEth": 0.3,
+        "swapSizeMaxEth": 1.5,
+        "tradeFrequency": 0.6,
+        "maxSlippageBps": 300
+      }
+    }
+  ],
+  "player": {
+    "startingEth": "5"
+  },
+  "win": {
+    "playerAccount": 0,
+    "metric": "nftSalesProfit",
+    "startingValue": "5",
+    "target": "12"
+  }
+}

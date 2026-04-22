@@ -1,0 +1,89 @@
+{
+  "id": "history-lesson",
+  "name": "History Lesson",
+  "category": "defi-exploit",
+  "difficulty": "medium",
+  "description": "A VULN/WETH pool is running. The VULN token is an upgradeable proxy \u2014 whoever knows the admin password can swap the implementation. The password was hashed before storage. Something about the deployment may be worth investigating.",
+  "chain": {
+    "blockCount": 200,
+    "blockIntervalMs": 1200,
+    "botSeed": 42,
+    "blocksPerCandle": 5
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "VULN",
+      "decimals": 18,
+      "type": "erc20"
+    }
+  ],
+  "pools": [
+    {
+      "id": "vuln-weth-uniswap",
+      "tokenA": "VULN",
+      "tokenB": "WETH",
+      "initialReserveA": "100000",
+      "initialReserveB": "50",
+      "exchange": "uniswap",
+      "displayName": "VULN/WETH"
+    }
+  ],
+  "contracts": [
+    {
+      "id": "vuln-impl",
+      "type": "upgradeable-erc20-impl",
+      "params": []
+    },
+    {
+      "id": "vuln-proxy",
+      "type": "upgradeable-erc20",
+      "params": [
+        "s3cr3tAdminP4ss!",
+        "VULN",
+        "Vulnerable Token",
+        "18",
+        "1000000"
+      ],
+      "tokenSymbol": "VULN"
+    }
+  ],
+  "bots": [
+    {
+      "id": "trader1",
+      "personality": "periodic",
+      "account": 1,
+      "params": {
+        "blockInterval": 5,
+        "poolId": "vuln-weth-uniswap",
+        "tokenIn": "WETH",
+        "amountIn": "1"
+      }
+    },
+    {
+      "id": "trader2",
+      "personality": "meanReversion",
+      "account": 2,
+      "params": {
+        "poolId": "vuln-weth-uniswap",
+        "pair": "VULN/WETH",
+        "targetPrice": "0.0005",
+        "sensitivity": 0.4
+      }
+    }
+  ],
+  "player": {
+    "startingEth": "15"
+  },
+  "win": {
+    "metric": "tokenBalance",
+    "playerAccount": 0,
+    "tokenSymbol": "VULN",
+    "startingValue": "0",
+    "target": "900000"
+  }
+}

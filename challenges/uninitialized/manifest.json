@@ -1,0 +1,50 @@
+{
+  "id": "uninitialized",
+  "name": "Uninitialized",
+  "category": "defi-exploit",
+  "difficulty": "easy",
+  "description": "Someone deployed an upgradeable vault but forgot to call initialize(). The owner is address(0). Can you claim it?",
+  "chain": {
+    "blockCount": 50,
+    "blockIntervalMs": 800,
+    "botSeed": 1,
+    "blocksPerCandle": 10
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    }
+  ],
+  "pools": [],
+  "bots": [],
+  "contracts": [
+    {
+      "id": "vault-impl",
+      "type": "vault-impl",
+      "params": []
+    },
+    {
+      "id": "vault-proxy",
+      "type": "uninitialized-proxy",
+      "params": [],
+      "fund": [
+        {
+          "tokenSymbol": "WETH",
+          "amount": "100"
+        }
+      ]
+    }
+  ],
+  "player": {
+    "startingEth": "1"
+  },
+  "win": {
+    "metric": "drainContract",
+    "playerAccount": 0,
+    "contractId": "vault-proxy",
+    "tokenSymbol": "WETH",
+    "threshold": "1000000000000000000"
+  }
+}

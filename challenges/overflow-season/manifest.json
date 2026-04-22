@@ -1,0 +1,42 @@
+{
+  "id": "overflow-season",
+  "name": "Overflow Season",
+  "description": "A staking contract with conservative block rewards. Deposit ETH, stake it, collect your cut. The contract has been audited. The math checks out. The gas is optimized. What could go wrong?",
+  "version": "1.1.0",
+  "category": "defi-exploit",
+  "difficulty": "easy",
+  "tags": [
+    "arithmetic-overflow",
+    "unchecked",
+    "staking",
+    "reward-manipulation"
+  ],
+  "chain": {
+    "blockCount": 80,
+    "blockIntervalMs": 500,
+    "botSeed": 2222,
+    "blocksPerCandle": 8
+  },
+  "tokens": [],
+  "pools": [],
+  "contracts": [
+    {
+      "id": "staking",
+      "type": "VulnerableStaking",
+      "params": [],
+      "fund": [
+        {
+          "tokenSymbol": "ETH",
+          "amount": "10"
+        }
+      ]
+    }
+  ],
+  "bots": [],
+  "win": {
+    "metric": "drainContract",
+    "playerAccount": 0,
+    "contractId": "staking",
+    "threshold": "100000000000000000"
+  }
+}

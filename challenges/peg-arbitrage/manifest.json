@@ -1,0 +1,103 @@
+{
+  "id": "peg-arbitrage",
+  "name": "Peg Arbitrage",
+  "description": "The USDS stablecoin has drifted 7% below its $1.00 peg due to panic selling. The StablecoinIssuer contract will redeem USDS for USD at exactly $1.00 (minus a 0.5% fee). Buy USDS cheap from the AMM pool and redeem at the issuer before mean-reversion bots close the spread.",
+  "version": "1.0.0",
+  "category": "trading-strategy",
+  "difficulty": "medium",
+  "tags": [
+    "stablecoin",
+    "peg",
+    "arbitrage",
+    "depeg",
+    "mean-reversion"
+  ],
+  "chain": {
+    "blockCount": 200,
+    "blockIntervalMs": 500,
+    "botSeed": 4242,
+    "blocksPerCandle": 10
+  },
+  "tokens": [
+    {
+      "symbol": "USDF",
+      "decimals": 18,
+      "type": "usd",
+      "deployerMintAmount": "715000",
+      "mintAmount": "10000"
+    },
+    {
+      "symbol": "USDS",
+      "decimals": 18,
+      "type": "erc20",
+      "deployerMintAmount": "760000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "usds-usdf-uniswap",
+      "tokenA": "USDS",
+      "tokenB": "USDF",
+      "initialReserveA": "752700",
+      "initialReserveB": "700000",
+      "exchange": "uniswap",
+      "displayName": "USDS/USDF"
+    }
+  ],
+  "contracts": [
+    {
+      "id": "issuer",
+      "type": "StablecoinIssuer",
+      "params": [
+        "{{token:USDF}}",
+        "{{token:USDS}}",
+        50,
+        "1000000000000000000000000"
+      ],
+      "fund": [
+        {
+          "tokenSymbol": "USDF",
+          "amount": "1000000"
+        }
+      ]
+    }
+  ],
+  "bots": [
+    {
+      "id": "peg-restorer",
+      "personality": "meanReversion",
+      "account": 1,
+      "params": {
+        "poolId": "usds-usdf-uniswap",
+        "targetPrice": 1.0,
+        "revertThreshold": 0.02,
+        "swapSizeMinEth": 200.0,
+        "swapSizeMaxEth": 800.0,
+        "tradeFrequency": 0.3,
+        "twapWindow": 20
+      }
+    },
+    {
+      "id": "noise-trader",
+      "personality": "volatile",
+      "account": 2,
+      "params": {
+        "poolId": "usds-usdf-uniswap",
+        "swapSizeMinEth": 50.0,
+        "swapSizeMaxEth": 300.0,
+        "tradeFrequency": 0.2
+      }
+    }
+  ],
+  "player": {
+    "startingTokens": [
+      { "symbol": "USDF", "amount": "10000" }
+    ]
+  },
+  "win": {
+    "playerAccount": 0,
+    "metric": "usdBalance",
+    "startingValue": "10000",
+    "target": "10700"
+  }
+}

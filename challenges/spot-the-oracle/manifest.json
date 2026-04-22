@@ -1,0 +1,81 @@
+{
+  "id": "spot-the-oracle",
+  "name": "Spot the Oracle",
+  "description": "A lending protocol uses the raw spot price from a thin AMM pool (100 WETH) as its collateral oracle \u2014 no TWAP. A FlashLoanProvider contract is deployed and available. This is the same class of vulnerability that cost Cream Finance $130M.",
+  "version": "1.0.0",
+  "category": "defi-exploit",
+  "difficulty": "hard",
+  "tags": [
+    "oracle-manipulation",
+    "flash-loan",
+    "lending-protocol",
+    "spot-oracle",
+    "cream-finance"
+  ],
+  "chain": {
+    "blockCount": 80,
+    "blockIntervalMs": 600,
+    "botSeed": 1111,
+    "blocksPerCandle": 8
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "USDC",
+      "decimals": 6,
+      "type": "erc20",
+      "deployerMintAmount": "1100000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "weth-usdc-uniswap",
+      "tokenA": "WETH",
+      "tokenB": "USDC",
+      "initialReserveA": "100",
+      "initialReserveB": "300000",
+      "exchange": "uniswap",
+      "displayName": "Uniswap (Oracle Source)"
+    }
+  ],
+  "contracts": [
+    {
+      "id": "flashloan",
+      "type": "FlashLoanProvider",
+      "params": [],
+      "fund": [
+        {
+          "tokenSymbol": "USDC",
+          "amount": "500000"
+        }
+      ]
+    },
+    {
+      "id": "lending",
+      "type": "LendingProtocol",
+      "params": [
+        "{{pool:weth-usdc-uniswap}}",
+        "{{token:WETH}}",
+        "{{token:USDC}}"
+      ],
+      "fund": [
+        {
+          "tokenSymbol": "USDC",
+          "amount": "200000"
+        }
+      ]
+    }
+  ],
+  "bots": [],
+  "win": {
+    "metric": "drainContract",
+    "playerAccount": 0,
+    "contractId": "lending",
+    "threshold": "10000000000",
+    "tokenSymbol": "USDC"
+  }
+}

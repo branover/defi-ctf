@@ -1,0 +1,89 @@
+{
+  "id": "sandwich-artist",
+  "name": "Sandwich Artist",
+  "description": "A naive meanReversion bot buys WETH aggressively whenever price drops more than 3% below its target of $3000. The bot's trigger condition is visible on-chain. Classic sandwich attack mechanics apply.",
+  "version": "1.0.0",
+  "category": "market-manipulation",
+  "difficulty": "medium",
+  "tags": [
+    "sandwich",
+    "front-running",
+    "mev",
+    "predictable-bot"
+  ],
+  "chain": {
+    "blockCount": 350,
+    "blockIntervalMs": 450,
+    "botSeed": 7777,
+    "blocksPerCandle": 7
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "USDC",
+      "decimals": 6,
+      "type": "erc20",
+      "deployerMintAmount": "650000",
+      "botMintAmount": "9000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "weth-usdc-uniswap",
+      "tokenA": "WETH",
+      "tokenB": "USDC",
+      "initialReserveA": "200",
+      "initialReserveB": "600000",
+      "exchange": "uniswap",
+      "displayName": "Uniswap"
+    }
+  ],
+  "bots": [
+    {
+      "id": "the-mark",
+      "personality": "meanReversion",
+      "account": 1,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "targetPrice": 3000,
+        "revertThreshold": 0.03,
+        "swapSizeMinEth": 8.0,
+        "swapSizeMaxEth": 20.0,
+        "tradeFrequency": 0.85,
+        "twapWindow": 10
+      }
+    },
+    {
+      "id": "dumper",
+      "personality": "volatile",
+      "account": 2,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "swapSizeMinEth": 3.0,
+        "swapSizeMaxEth": 12.0,
+        "tradeFrequency": 0.25
+      }
+    },
+    {
+      "id": "noise",
+      "personality": "volatile",
+      "account": 3,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "swapSizeMinEth": 0.2,
+        "swapSizeMaxEth": 1.5,
+        "tradeFrequency": 0.5
+      }
+    }
+  ],
+  "win": {
+    "playerAccount": 0,
+    "metric": "ethBalance",
+    "startingValue": "10",
+    "target": "13"
+  }
+}

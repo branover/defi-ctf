@@ -1,0 +1,49 @@
+{
+  "id": "leaky-vault",
+  "name": "Leaky Vault",
+  "description": "A simple ETH vault lets users deposit and withdraw funds. It holds 5 ETH in deposits from other users. Something about the withdrawal logic isn't quite right — a determined depositor might find a way to take more than they put in.",
+  "version": "1.0.0",
+  "category": "defi-exploit",
+  "difficulty": "easy",
+  "tags": [
+    "reentrancy",
+    "CEI",
+    "checks-effects-interactions",
+    "eth-vault"
+  ],
+  "chain": {
+    "blockCount": 60,
+    "blockIntervalMs": 500,
+    "botSeed": 1337,
+    "blocksPerCandle": 6
+  },
+  "tokens": [],
+  "pools": [],
+  "contracts": [
+    {
+      "id": "vault",
+      "type": "VulnerableVault",
+      "params": [],
+      "fund": [
+        {
+          "tokenSymbol": "ETH",
+          "amount": "5"
+        }
+      ]
+    },
+    {
+      "id": "attacker",
+      "type": "ReentrancyAttacker",
+      "params": [
+        "{{vault}}"
+      ]
+    }
+  ],
+  "bots": [],
+  "win": {
+    "metric": "drainContract",
+    "playerAccount": 0,
+    "contractId": "vault",
+    "threshold": "100000000000000000"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "admin-who",
+  "name": "Admin Who?",
+  "description": "A vault contract guards its drain() function with onlyOwner. Access to the owner role is controlled by a separate function, but not every function that changes ownership has the same protections. This mirrors real-world access control bugs where critical setter functions are left unprotected.",
+  "version": "1.0.0",
+  "category": "defi-exploit",
+  "difficulty": "easy",
+  "tags": [
+    "access-control",
+    "unprotected-function",
+    "ownership",
+    "authorization"
+  ],
+  "chain": {
+    "blockCount": 40,
+    "blockIntervalMs": 500,
+    "botSeed": 3333,
+    "blocksPerCandle": 4
+  },
+  "tokens": [],
+  "pools": [],
+  "contracts": [
+    {
+      "id": "vault",
+      "type": "UnprotectedOwnership",
+      "params": [],
+      "fund": [
+        {
+          "tokenSymbol": "ETH",
+          "amount": "3"
+        }
+      ]
+    }
+  ],
+  "bots": [],
+  "win": {
+    "metric": "drainContract",
+    "playerAccount": 0,
+    "contractId": "vault",
+    "threshold": "100000000000000000"
+  }
+}

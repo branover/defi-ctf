@@ -1,0 +1,111 @@
+{
+  "id": "the-wash",
+  "name": "The Wash",
+  "description": "Three momentum algorithms are watching the MEME/WETH pool for unusual volume. They respond to what they see, not why it happened. Use your 5 ETH and 10,000 MEME to grow your portfolio to 10.83 ETH.",
+  "version": "2.0.0",
+  "category": "market-manipulation",
+  "difficulty": "easy",
+  "tags": [
+    "wash-trading",
+    "volume-manipulation",
+    "momentum-bots"
+  ],
+  "chain": {
+    "blockCount": 300,
+    "blockIntervalMs": 400,
+    "botSeed": 4242,
+    "blocksPerCandle": 5
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "MEME",
+      "decimals": 18,
+      "type": "erc20",
+      "deployerMintAmount": "200000",
+      "mintAmount": "10000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "weth-meme-uniswap",
+      "tokenA": "WETH",
+      "tokenB": "MEME",
+      "initialReserveA": "50",
+      "initialReserveB": "150000",
+      "exchange": "uniswap",
+      "displayName": "Uniswap"
+    }
+  ],
+  "bots": [
+    {
+      "id": "baseline-trader",
+      "personality": "periodic",
+      "account": 1,
+      "params": {
+        "poolId": "weth-meme-uniswap",
+        "swapSizeEth": 0.08,
+        "blockInterval": 6,
+        "direction": "random"
+      }
+    },
+    {
+      "id": "volume-tracker-alpha",
+      "personality": "volume-tracker",
+      "account": 2,
+      "params": {
+        "poolId": "weth-meme-uniswap",
+        "baselineCandles": 4,
+        "spikeMultiplier": 3.0,
+        "buyAmountEth": 1.5,
+        "sellDelayBlocks": 15,
+        "pair": "weth-meme-uniswap"
+      }
+    },
+    {
+      "id": "volume-tracker-beta",
+      "personality": "volume-tracker",
+      "account": 3,
+      "params": {
+        "poolId": "weth-meme-uniswap",
+        "baselineCandles": 4,
+        "spikeMultiplier": 3.0,
+        "buyAmountEth": 1.0,
+        "sellDelayBlocks": 12,
+        "pair": "weth-meme-uniswap"
+      }
+    },
+    {
+      "id": "volume-tracker-gamma",
+      "personality": "volume-tracker",
+      "account": 4,
+      "params": {
+        "poolId": "weth-meme-uniswap",
+        "baselineCandles": 4,
+        "spikeMultiplier": 3.5,
+        "buyAmountEth": 0.8,
+        "sellDelayBlocks": 10,
+        "pair": "weth-meme-uniswap"
+      }
+    }
+  ],
+  "player": {
+    "startingEth": "5",
+    "startingTokens": [
+      {
+        "symbol": "MEME",
+        "amount": "10000"
+      }
+    ]
+  },
+  "win": {
+    "metric": "portfolioValueInEth",
+    "playerAccount": 0,
+    "startingValue": "8.33",
+    "target": "10.83"
+  }
+}

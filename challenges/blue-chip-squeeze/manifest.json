@@ -1,0 +1,233 @@
+{
+  "id": "blue-chip-squeeze",
+  "name": "Blue Chip Squeeze",
+  "description": "10 rare NFTs (rarity 90-100) dominate the marketplace at 2 WETH each. You hold 5 common NFTs and 2 rares. Two bots are watching — one chases cheap floor listings, another pays a premium for high-rarity pieces. Watch the order flow and time your listings to intercept their demand. Earn 11.5 WETH from NFT marketplace sales.",
+  "version": "1.0.0",
+  "category": "market-manipulation",
+  "difficulty": "hard",
+  "tags": [
+    "nft",
+    "market-manipulation",
+    "shill-bidding",
+    "floor-manipulation",
+    "bot-exploitation"
+  ],
+  "chain": {
+    "blockCount": 250,
+    "blockIntervalMs": 700,
+    "botSeed": 5555,
+    "blocksPerCandle": 12
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    }
+  ],
+  "pools": [],
+  "contracts": [
+    {
+      "id": "collection",
+      "type": "CTFCollection",
+      "params": [
+        "Blue Chip Collection",
+        "BCHIP",
+        200
+      ]
+    },
+    {
+      "id": "marketplace",
+      "type": "NFTMarketplace",
+      "params": [
+        "{{collection}}",
+        "{{token:WETH}}"
+      ]
+    }
+  ],
+  "nftMints": [
+    {
+      "contractId": "collection",
+      "tokenId": 0,
+      "recipient": "bot0",
+      "rarityScore": 91,
+      "listed": true,
+      "listingPrice": "2.0",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 1,
+      "recipient": "bot0",
+      "rarityScore": 94,
+      "listed": true,
+      "listingPrice": "2.0",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 2,
+      "recipient": "bot0",
+      "rarityScore": 97,
+      "listed": true,
+      "listingPrice": "2.0",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 3,
+      "recipient": "bot1",
+      "rarityScore": 90,
+      "listed": true,
+      "listingPrice": "2.0",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 4,
+      "recipient": "bot1",
+      "rarityScore": 93,
+      "listed": true,
+      "listingPrice": "2.0",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 5,
+      "recipient": "bot1",
+      "rarityScore": 96,
+      "listed": true,
+      "listingPrice": "2.0",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 6,
+      "recipient": "bot2",
+      "rarityScore": 92,
+      "listed": true,
+      "listingPrice": "2.0",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 7,
+      "recipient": "bot2",
+      "rarityScore": 95,
+      "listed": true,
+      "listingPrice": "2.0",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 8,
+      "recipient": "bot2",
+      "rarityScore": 98,
+      "listed": true,
+      "listingPrice": "2.0",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 9,
+      "recipient": "bot3",
+      "rarityScore": 100,
+      "listed": true,
+      "listingPrice": "2.0",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 10,
+      "recipient": "player",
+      "rarityScore": 3,
+      "listed": false
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 11,
+      "recipient": "player",
+      "rarityScore": 7,
+      "listed": false
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 12,
+      "recipient": "player",
+      "rarityScore": 5,
+      "listed": false
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 13,
+      "recipient": "player",
+      "rarityScore": 9,
+      "listed": false
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 14,
+      "recipient": "player",
+      "rarityScore": 4,
+      "listed": false
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 15,
+      "recipient": "player",
+      "rarityScore": 85,
+      "listed": false
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 16,
+      "recipient": "player",
+      "rarityScore": 90,
+      "listed": false
+    }
+  ],
+  "nftReveal": {
+    "contractId": "collection",
+    "atBlock": 1
+  },
+  "bots": [
+    {
+      "id": "fomo-buyer",
+      "personality": "nft-buyer",
+      "account": 1,
+      "params": {
+        "marketplaceId": "marketplace",
+        "collectionId": "collection",
+        "wethAddress": "{{token:WETH}}",
+        "blockInterval": 8,
+        "markupPct": 5,
+        "maxBuyPrice": 1.4,
+        "startBlock": 40
+      }
+    },
+    {
+      "id": "collector",
+      "personality": "nft-buyer",
+      "account": 2,
+      "params": {
+        "marketplaceId": "marketplace",
+        "collectionId": "collection",
+        "wethAddress": "{{token:WETH}}",
+        "blockInterval": 10,
+        "markupPct": 15,
+        "minRarity": 80,
+        "maxBuyPrice": 3.0,
+        "startBlock": 60
+      }
+    }
+  ],
+  "player": {
+    "startingEth": "10"
+  },
+  "win": {
+    "playerAccount": 0,
+    "metric": "nftSalesProfit",
+    "startingValue": "10",
+    "target": "11.5"
+  }
+}

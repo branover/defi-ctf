@@ -1,0 +1,140 @@
+{
+  "id": "the-spread",
+  "name": "The Spread",
+  "description": "Two WETH/USDC pools have diverged. Pool A is at $3000 (Uniswap), Pool B at $2700 (SushiSwap). A slow synchronizer is closing the gap while noise traders obscure the signal. Spot the arbitrage and extract profit before convergence.",
+  "version": "1.2.0",
+  "category": "trading-strategy",
+  "difficulty": "medium",
+  "tags": [
+    "cross-dex-arb",
+    "convergence",
+    "market-structure"
+  ],
+  "chain": {
+    "blockCount": 300,
+    "blockIntervalMs": 500,
+    "botSeed": 777,
+    "blocksPerCandle": 5
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "USDC",
+      "decimals": 6,
+      "type": "erc20",
+      "deployerMintAmount": "1260000",
+      "botMintAmount": "2000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "weth-usdc-uniswap",
+      "tokenA": "WETH",
+      "tokenB": "USDC",
+      "initialReserveA": "200",
+      "initialReserveB": "600000",
+      "exchange": "uniswap",
+      "displayName": "Uniswap"
+    },
+    {
+      "id": "weth-usdc-sushiswap",
+      "tokenA": "WETH",
+      "tokenB": "USDC",
+      "initialReserveA": "200",
+      "initialReserveB": "540000",
+      "exchange": "sushiswap",
+      "displayName": "SushiSwap"
+    }
+  ],
+  "bots": [
+    {
+      "id": "the-diverger",
+      "personality": "volatile",
+      "account": 1,
+      "params": {
+        "poolId": "weth-usdc-sushiswap",
+        "swapSizeMinEth": 8.0,
+        "swapSizeMaxEth": 25.0,
+        "tradeFrequency": 0.2,
+        "maxSlippageBps": 400
+      }
+    },
+    {
+      "id": "slow-sync",
+      "personality": "meanReversion",
+      "account": 2,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "swapSizeMinEth": 1.0,
+        "swapSizeMaxEth": 4.0,
+        "tradeFrequency": 0.15,
+        "targetPrice": 3000,
+        "revertThreshold": 0.03,
+        "twapWindow": 30,
+        "maxSlippageBps": 200
+      }
+    },
+    {
+      "id": "noise-c",
+      "personality": "volatile",
+      "account": 3,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "swapSizeMinEth": 0.3,
+        "swapSizeMaxEth": 2.0,
+        "tradeFrequency": 0.45,
+        "maxSlippageBps": 300
+      }
+    },
+    {
+      "id": "noise-d",
+      "personality": "volatile",
+      "account": 4,
+      "params": {
+        "poolId": "weth-usdc-sushiswap",
+        "swapSizeMinEth": 0.2,
+        "swapSizeMaxEth": 1.5,
+        "tradeFrequency": 0.5,
+        "maxSlippageBps": 300
+      }
+    },
+    {
+      "id": "arb-hawk",
+      "personality": "arbitrageur",
+      "account": 5,
+      "params": {
+        "poolIdA": "weth-usdc-uniswap",
+        "poolIdB": "weth-usdc-sushiswap",
+        "swapSizeMinEth": 0.5,
+        "swapSizeMaxEth": 3.0,
+        "minProfitBps": 30,
+        "tradeFrequency": 0.6,
+        "maxSlippageBps": 80
+      }
+    },
+    {
+      "id": "spread-mm",
+      "personality": "marketmaker",
+      "account": 6,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "twapWindow": 30,
+        "mmThreshold": 0.008,
+        "swapSizeMinEth": 0.2,
+        "swapSizeMaxEth": 1.5,
+        "tradeFrequency": 1.0,
+        "maxSlippageBps": 100
+      }
+    }
+  ],
+  "win": {
+    "playerAccount": 0,
+    "metric": "ethBalance",
+    "startingValue": "10",
+    "target": "12"
+  }
+}

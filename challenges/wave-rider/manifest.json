@@ -1,0 +1,117 @@
+{
+  "id": "wave-rider",
+  "name": "Riding the Wave",
+  "description": "A chaotic market with multiple bots creating realistic price volatility. Buy the dips, sell the rips, and turn your 10 ETH starting stake into 13 ETH within 500 blocks.",
+  "version": "1.2.0",
+  "category": "trading-strategy",
+  "difficulty": "easy",
+  "tags": [
+    "buy-the-dip",
+    "volatility",
+    "trend-following"
+  ],
+  "chain": {
+    "blockCount": 500,
+    "blockIntervalMs": 400,
+    "botSeed": 42,
+    "blocksPerCandle": 10
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "USDC",
+      "decimals": 6,
+      "type": "erc20",
+      "deployerMintAmount": "650000",
+      "botMintAmount": "6000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "weth-usdc-uniswap",
+      "tokenA": "WETH",
+      "tokenB": "USDC",
+      "initialReserveA": "200",
+      "initialReserveB": "600000",
+      "exchange": "uniswap",
+      "displayName": "Uniswap"
+    }
+  ],
+  "bots": [
+    {
+      "id": "chaos-charlie",
+      "personality": "volatile",
+      "account": 1,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "swapSizeMinEth": 5.0,
+        "swapSizeMaxEth": 20.0,
+        "tradeFrequency": 0.35,
+        "maxSlippageBps": 300
+      }
+    },
+    {
+      "id": "noise-alice",
+      "personality": "volatile",
+      "account": 2,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "swapSizeMinEth": 0.2,
+        "swapSizeMaxEth": 1.5,
+        "tradeFrequency": 0.6,
+        "maxSlippageBps": 300
+      }
+    },
+    {
+      "id": "noise-bob",
+      "personality": "volatile",
+      "account": 3,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "swapSizeMinEth": 0.5,
+        "swapSizeMaxEth": 3.0,
+        "tradeFrequency": 0.5,
+        "maxSlippageBps": 300
+      }
+    },
+    {
+      "id": "steady-sam",
+      "personality": "meanReversion",
+      "account": 4,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "swapSizeMinEth": 2.0,
+        "swapSizeMaxEth": 8.0,
+        "tradeFrequency": 0.25,
+        "targetPrice": 3000,
+        "revertThreshold": 0.04,
+        "twapWindow": 20,
+        "maxSlippageBps": 400
+      }
+    },
+    {
+      "id": "market-maker-mm",
+      "personality": "marketmaker",
+      "account": 5,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "twapWindow": 20,
+        "mmThreshold": 0.008,
+        "swapSizeMinEth": 0.2,
+        "swapSizeMaxEth": 2.0,
+        "tradeFrequency": 1.0,
+        "maxSlippageBps": 100
+      }
+    }
+  ],
+  "win": {
+    "playerAccount": 0,
+    "metric": "ethBalance",
+    "startingValue": "10",
+    "target": "13"
+  }
+}

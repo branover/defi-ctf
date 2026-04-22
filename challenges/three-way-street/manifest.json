@@ -1,0 +1,130 @@
+{
+  "id": "three-way-street",
+  "name": "Three-Way Street",
+  "description": "Three pools \u2014 WETH/USDC, WETH/DAI, and USDC/DAI \u2014 have gone out of sync. A circular pricing relationship exists between them, and an arb bot is slowly working to close the gap. Extract profit before convergence.",
+  "version": "1.0.0",
+  "category": "trading-strategy",
+  "difficulty": "medium",
+  "tags": [
+    "arbitrage",
+    "triangular-arb",
+    "multi-pool",
+    "cross-rate"
+  ],
+  "chain": {
+    "blockCount": 400,
+    "blockIntervalMs": 400,
+    "botSeed": 1337,
+    "blocksPerCandle": 8
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "USDC",
+      "decimals": 6,
+      "type": "erc20",
+      "deployerMintAmount": "1100000",
+      "mintAmount": "5000"
+    },
+    {
+      "symbol": "DAI",
+      "decimals": 18,
+      "type": "erc20",
+      "deployerMintAmount": "1100000",
+      "mintAmount": "5000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "weth-usdc-uniswap",
+      "tokenA": "WETH",
+      "tokenB": "USDC",
+      "initialReserveA": "200",
+      "initialReserveB": "620000",
+      "exchange": "uniswap",
+      "displayName": "Uniswap"
+    },
+    {
+      "id": "weth-dai-sushiswap",
+      "tokenA": "WETH",
+      "tokenB": "DAI",
+      "initialReserveA": "200",
+      "initialReserveB": "580000",
+      "exchange": "sushiswap",
+      "displayName": "SushiSwap"
+    },
+    {
+      "id": "usdc-dai-curve",
+      "tokenA": "USDC",
+      "tokenB": "DAI",
+      "initialReserveA": "400000",
+      "initialReserveB": "420000",
+      "exchange": "curve",
+      "displayName": "Curve"
+    }
+  ],
+  "bots": [
+    {
+      "id": "noise-eth",
+      "personality": "volatile",
+      "account": 1,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "swapSizeMinEth": 0.5,
+        "swapSizeMaxEth": 4.0,
+        "tradeFrequency": 0.35
+      }
+    },
+    {
+      "id": "noise-dai",
+      "personality": "volatile",
+      "account": 2,
+      "params": {
+        "poolId": "weth-dai-sushiswap",
+        "swapSizeMinEth": 0.3,
+        "swapSizeMaxEth": 3.0,
+        "tradeFrequency": 0.3
+      }
+    },
+    {
+      "id": "stablecoin-noise",
+      "personality": "volatile",
+      "account": 3,
+      "params": {
+        "poolId": "usdc-dai-curve",
+        "swapSizeMinEth": 0.2,
+        "swapSizeMaxEth": 2.0,
+        "tradeFrequency": 0.25
+      }
+    },
+    {
+      "id": "slow-arb",
+      "personality": "arbitrageur",
+      "account": 4,
+      "params": {
+        "poolIdA": "weth-usdc-uniswap",
+        "poolIdB": "weth-dai-sushiswap",
+        "swapSizeMinEth": 0.3,
+        "swapSizeMaxEth": 2.0,
+        "minProfitBps": 50,
+        "tradeFrequency": 0.3
+      }
+    }
+  ],
+  "player": {
+    "startingTokens": [
+      { "symbol": "USDC", "amount": "5000" },
+      { "symbol": "DAI", "amount": "5000" }
+    ]
+  },
+  "win": {
+    "playerAccount": 0,
+    "metric": "portfolioValueInEth",
+    "startingValue": "13.33",
+    "target": "14.83"
+  }
+}

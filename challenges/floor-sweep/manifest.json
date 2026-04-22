@@ -1,0 +1,357 @@
+{
+  "id": "floor-sweep",
+  "name": "Floor Sweep",
+  "description": "The floor is getting hammered by a panic seller unloading 30 common NFTs all priced at 0.1 WETH. A market maker bot is watching the floor and buying dips, relisting higher. Get there first. Earn 5.5 WETH from NFT marketplace sales.",
+  "version": "1.0.0",
+  "category": "trading-strategy",
+  "difficulty": "medium",
+  "tags": [
+    "nft",
+    "front-running",
+    "market-making",
+    "floor",
+    "arbitrage"
+  ],
+  "chain": {
+    "blockCount": 300,
+    "blockIntervalMs": 600,
+    "botSeed": 9876,
+    "blocksPerCandle": 15
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    }
+  ],
+  "pools": [],
+  "contracts": [
+    {
+      "id": "collection",
+      "type": "CTFCollection",
+      "params": [
+        "Floor Sweep Collection",
+        "FLOOR",
+        1000
+      ]
+    },
+    {
+      "id": "marketplace",
+      "type": "NFTMarketplace",
+      "params": [
+        "{{collection}}",
+        "{{token:WETH}}"
+      ]
+    }
+  ],
+  "nftMints": [
+    {
+      "contractId": "collection",
+      "tokenId": 0,
+      "recipient": "bot0",
+      "rarityScore": 1,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 1,
+      "recipient": "bot1",
+      "rarityScore": 2,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 2,
+      "recipient": "bot2",
+      "rarityScore": 3,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 3,
+      "recipient": "bot3",
+      "rarityScore": 4,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 4,
+      "recipient": "bot0",
+      "rarityScore": 5,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 5,
+      "recipient": "bot1",
+      "rarityScore": 6,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 6,
+      "recipient": "bot2",
+      "rarityScore": 7,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 7,
+      "recipient": "bot3",
+      "rarityScore": 8,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 8,
+      "recipient": "bot0",
+      "rarityScore": 9,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 9,
+      "recipient": "bot1",
+      "rarityScore": 10,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 10,
+      "recipient": "bot2",
+      "rarityScore": 11,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 11,
+      "recipient": "bot3",
+      "rarityScore": 12,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 12,
+      "recipient": "bot0",
+      "rarityScore": 13,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 13,
+      "recipient": "bot1",
+      "rarityScore": 14,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 14,
+      "recipient": "bot2",
+      "rarityScore": 15,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 15,
+      "recipient": "bot3",
+      "rarityScore": 16,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 16,
+      "recipient": "bot0",
+      "rarityScore": 17,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 17,
+      "recipient": "bot1",
+      "rarityScore": 18,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 18,
+      "recipient": "bot2",
+      "rarityScore": 19,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 19,
+      "recipient": "bot3",
+      "rarityScore": 20,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 20,
+      "recipient": "bot0",
+      "rarityScore": 1,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 21,
+      "recipient": "bot1",
+      "rarityScore": 2,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 22,
+      "recipient": "bot2",
+      "rarityScore": 3,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 23,
+      "recipient": "bot3",
+      "rarityScore": 4,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 24,
+      "recipient": "bot0",
+      "rarityScore": 5,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 25,
+      "recipient": "bot1",
+      "rarityScore": 6,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 26,
+      "recipient": "bot2",
+      "rarityScore": 7,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 27,
+      "recipient": "bot3",
+      "rarityScore": 8,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 28,
+      "recipient": "bot0",
+      "rarityScore": 9,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    },
+    {
+      "contractId": "collection",
+      "tokenId": 29,
+      "recipient": "bot1",
+      "rarityScore": 10,
+      "listed": true,
+      "listingPrice": "0.1",
+      "marketplaceId": "marketplace"
+    }
+  ],
+  "bots": [
+    {
+      "id": "market-maker",
+      "personality": "nft-buyer",
+      "account": 1,
+      "params": {
+        "marketplaceId": "marketplace",
+        "collectionId": "collection",
+        "wethAddress": "{{token:WETH}}",
+        "blockInterval": 10,
+        "markupPct": 20,
+        "maxFloor": 0.15,
+        "startBlock": 5
+      }
+    },
+    {
+      "id": "panic-seller",
+      "personality": "nft-panic-seller",
+      "account": 2,
+      "params": {
+        "marketplaceId": "marketplace",
+        "collectionId": "collection",
+        "blockInterval": 30,
+        "discountPct": 30,
+        "startBlock": 10
+      }
+    }
+  ],
+  "player": {
+    "startingEth": "5"
+  },
+  "win": {
+    "playerAccount": 0,
+    "metric": "nftSalesProfit",
+    "startingValue": "5",
+    "target": "5.5"
+  }
+}

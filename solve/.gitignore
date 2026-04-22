@@ -1,0 +1,17 @@
+# forge build artifacts
+out/
+cache/
+
+# generated env — contains private key, never commit
+.env
+
+# forge broadcast logs (per-run transaction receipts)
+broadcast/
+
+# forge coverage
+lcov.info
+
+# Per-challenge player workspaces (local only — seeded from challenge-templates/ on first use).
+# Templates for tutorials and multi-file challenges live in solve/challenge-templates/.
+# Master generic templates live in solve/script/.
+challenges/

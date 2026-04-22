@@ -1,0 +1,60 @@
+{
+  "id": "fake-volume",
+  "name": "Fake Volume",
+  "category": "defi-exploit",
+  "difficulty": "medium",
+  "description": "A trading competition ends in 30 blocks. Volume is recorded by pool contracts that implement the IVolumePool interface. The incumbent bots have months of historical volume seeded in \u2014 you'll need to find another way to compete.",
+  "version": "2.0.0",
+  "tags": [
+    "manipulation",
+    "duck-typing",
+    "interface-check",
+    "competition",
+    "exploit"
+  ],
+  "chain": {
+    "blockCount": 50,
+    "blockIntervalMs": 1000,
+    "botSeed": 42,
+    "blocksPerCandle": 5
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    }
+  ],
+  "pools": [],
+  "bots": [],
+  "contracts": [
+    {
+      "id": "competition",
+      "type": "TradingCompetition",
+      "params": [
+        30
+      ],
+      "constructorValue": "50",
+      "botVolumes": [
+        {
+          "signerIndex": 1,
+          "volume": "500000"
+        },
+        {
+          "signerIndex": 2,
+          "volume": "750000"
+        },
+        {
+          "signerIndex": 3,
+          "volume": "600000"
+        }
+      ]
+    }
+  ],
+  "win": {
+    "metric": "ethBalance",
+    "playerAccount": 0,
+    "startingValue": "0.5",
+    "target": "40"
+  }
+}

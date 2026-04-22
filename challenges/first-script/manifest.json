@@ -1,0 +1,83 @@
+{
+  "id": "first-script",
+  "name": "First Script",
+  "description": "Write and run your first Solidity script using Forge. Wrap ETH and execute a swap directly on-chain — no JavaScript required. A guided tutorial walks you through every step.",
+  "version": "1.0.0",
+  "category": "tutorial",
+  "difficulty": "beginner",
+  "tags": [
+    "tutorial",
+    "solidity",
+    "forge-script",
+    "weth",
+    "swap"
+  ],
+  "chain": {
+    "blockCount": 200,
+    "blockIntervalMs": 600,
+    "botSeed": 2,
+    "blocksPerCandle": 10
+  },
+  "tokens": [
+    {
+      "symbol": "WETH",
+      "decimals": 18,
+      "type": "weth"
+    },
+    {
+      "symbol": "USDC",
+      "decimals": 6,
+      "type": "usd",
+      "deployerMintAmount": "15000",
+      "botMintAmount": "5000"
+    }
+  ],
+  "pools": [
+    {
+      "id": "weth-usdc-uniswap",
+      "tokenA": "WETH",
+      "tokenB": "USDC",
+      "initialReserveA": "5",
+      "initialReserveB": "15000",
+      "exchange": "uniswap",
+      "displayName": "Uniswap"
+    }
+  ],
+  "bots": [
+    {
+      "id": "trader-a",
+      "personality": "momentum",
+      "account": 1,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "trendWindow": 6,
+        "threshold": 0.01,
+        "swapSizeMinEth": 0.05,
+        "swapSizeMaxEth": 0.2,
+        "tradeFrequency": 0.5,
+        "maxSlippageBps": 300
+      }
+    },
+    {
+      "id": "trader-b",
+      "personality": "meanReversion",
+      "account": 2,
+      "params": {
+        "poolId": "weth-usdc-uniswap",
+        "swapSizeMinEth": 0.05,
+        "swapSizeMaxEth": 0.15,
+        "maxSlippageBps": 300
+      }
+    }
+  ],
+  "order": 2,
+  "player": {
+    "startingEth": "1"
+  },
+  "win": {
+    "playerAccount": 0,
+    "metric": "usdBalance",
+    "startingValue": "0",
+    "target": "500"
+  }
+}
